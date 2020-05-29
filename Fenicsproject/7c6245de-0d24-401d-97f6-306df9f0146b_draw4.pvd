@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1">
+  <Collection>
+    <DataSet timestep="0" part="0" file="7c6245de-0d24-401d-97f6-306df9f0146b_draw4000000.vtu" />
+  </Collection>
+</VTKFile>
