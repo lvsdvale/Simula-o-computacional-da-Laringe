@@ -2,7 +2,7 @@ from __future__ import print_function
 from fenics import *
 from dolfin import *
 import matplotlib.pyplot as plt
-import Mesh_Create
+import Mesh_Create2D
 import uuid
 # Setting physical parameters
 f        = Constant( (0.0, 0.0) )
@@ -15,7 +15,7 @@ p_outlet = Constant( 0.0 )
 txt = input('digite o nome do arquivo que deseja abrir \n')
 Saida =f'{uuid.uuid4()}_{txt}.pvd'
 txt = f'{txt}.vtu'
-my_mesh = Mesh_Create.create_mesh(txt)
+my_mesh = Mesh_Create2D.create_mesh(txt)
 #vtkfile = File(Saida)
 #vtkfile << mesh
 
@@ -69,14 +69,14 @@ bcs = [bcu_walls]
 
 # Define variational problem a(u, V) = L(v)
 print('Solving a(u, V) = L(v)')
-ds_surface = Measure('ds')[my_surface]
+ds_surface = Measure('ds')(subdomain_data = my_surface)
 n = FacetNormal(my_mesh)
-a = mu*inner(grad(v), grad(u)) - div(v)*p + q*div(u)*dx 
+a = mu*inner(grad(v), grad(u))*dx- div(v)*p*dx + q*div(u)*dx
 L = rho*inner(v, f)*dx - p_inlet*dot(v, n)*ds_surface(2) - p_outlet*dot(v, n)*ds_surface(3)
 
 # Compute solution using default solver with default parameters
 w = Function(W)
-my_problem = LinearVariationalProblem(a, L, w, bcs = bcu)
+my_problem = LinearVariationalProblem(a, L, w, bcs = bcs)
 my_solver  = LinearVariationalSolver(my_problem)
 
 my_solver.solve()
