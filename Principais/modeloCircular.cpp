@@ -16,7 +16,6 @@
 #include <fstream>
 #include <CGAL/draw_triangulation_2.h>
 #include <stdlib.h>
-#include <CGAL/Qt/Basic_viewer_qt.h>
 #include <CGAL/lloyd_optimize_mesh_2.h>
 #include <string>
 #include <cmath>
@@ -229,7 +228,7 @@ c=Parametros[5];
 std::cout<<"criterio de densidade de furos (0<c<1):"<<c<<std::endl;
 std::cout<<"digite um nome para o arquivo VTK gerado"<<std::endl;
 std::cin>>name;
-name.append(".vtu");
+
 
   
  v.push_back(cdt.insert(Point(0,H)));

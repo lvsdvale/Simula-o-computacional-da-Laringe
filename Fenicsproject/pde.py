@@ -1,7 +1,6 @@
 from __future__ import print_function
 from fenics import *
 from dolfin import *
-import matplotlib.pyplot as plt
 import Mesh_Create2D
 import uuid
 # Setting physical parameters
@@ -13,9 +12,9 @@ p_inlet  = Constant( 8000.0 )
 p_outlet = Constant( 0.0 )
 
 txt = input('digite o nome do arquivo que deseja abrir \n')
-Saida =f'{uuid.uuid4()}_{txt}.pvd'
+Saida =f'{txt}_{uuid.uuid4()}'
 txt = f'{txt}.vtu'
-my_mesh = Mesh_Create2D.create_mesh(txt)
+my_mesh,Near = Mesh_Create2D.create_mesh(txt)
 #vtkfile = File(Saida)
 #vtkfile << mesh
 
@@ -35,15 +34,14 @@ W  = FunctionSpace(my_mesh, TH)
 # --> as paredes devem ter velocidade NULA
 print('Defining boundary conditions...')
 
-# --> define entrada de ar: pontos da superfície com x == 0 (corrija)
+
 class loc_inlet(SubDomain):
     def inside(self, x, on_boundary):
         return (on_boundary and near(x[0], 0.0))
 
-# --> define entrada de ar: pontos da superfície com x == 10.0 (corrija)
 class loc_outlet(SubDomain):
     def inside(self, x, on_boundary):
-        return (on_boundary and near(x[0], 10.0))
+        return (on_boundary and near(x[0], Near))
 
 # --> define as paredes da laringe: todos os pontos (depois vamos filtrá-los)
 # --> não precisa mexer aqui
@@ -81,17 +79,22 @@ my_solver  = LinearVariationalSolver(my_problem)
 
 my_solver.solve()
 
-# --> se esta linha der erro, ignore ela
-list_timings(TimingClear.clear, [TimingType.user])
+
+#list_timings(TimingClear.clear, [TimingType.user])
 
 # Saving solution
 print('Saving solution')
 (u, p) = w.split()
+vtkfile = File(f'{Saida}.res_pressure.pvd')
+vtkfile << p
+vtkfile = File(f'{Saida}.res_velocity.pvd')
+vtkfile << u
+'''
 with XDMFFile(MPI.comm_world, f'{Saida}.res_pressure.xdmf') as my_file:
 	my_file.write(p)
 with XDMFFile(MPI.comm_world,f'{Saida}res_velocity.xdmf') as my_file:
 	my_file.write(u)
-
+'''
 # para executar esse código, vamos usar o mpirun (coloquei para usar 2 threads)
 # mpirun -np 2 python3 nome_deste_codigo.py
 
