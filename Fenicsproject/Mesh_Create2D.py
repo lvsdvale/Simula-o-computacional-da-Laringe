@@ -32,11 +32,14 @@ def create_mesh(txt):
     # criando as listas de vertices e de celulas, a lista de vertices começa no indice 13 pois é o indice que começa os pontos dela, indo até 3 vezes o numero de vertices,pois cada vertice tem x,y e z, as celular começam 7 indices depois do fim do numero de vertices indo até 3 vezes o numero dela pois tambem tem 3 elementos pra cada vertice
     vertices = [float(limpa[i]) for i in range(13, 13 + 3 * nvertices)]
     cells = [int(limpa[i]) for i in range(20 + 3 * nvertices, 20 + 3 * nvertices + 3 * ncells)]
-    near = vertices[1]
     # para poder criar a mesh foi criado um vetor de pontos dolfin utilizando a lista vertices (Vpoints), cada coordenadas de vertices é criado um ponto dolfin, já para as celulas era necessario um array com 3 elementos, então foi criado uma lista onde cada elemento da lista é um array contendo 3 coordenadas da celula(Cpoints)
     Vpoints = []
+    near = 0
     for i in range(0, len(vertices), 3):
         Vpoints.append(df.Point(vertices[i], vertices[i + 1]))
+        if vertices[i] >= near:
+            near = vertices[i]
+
     Cpoints = []
     for i in range(0, len(cells), 3):
         Caux = [cells[i], cells[i + 1], cells[i + 2]]

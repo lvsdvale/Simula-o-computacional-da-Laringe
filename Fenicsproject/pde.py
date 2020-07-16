@@ -94,6 +94,4 @@ with XDMFFile(MPI.comm_world, f'{Saida}.res_pressure.xdmf') as my_file:
 with XDMFFile(MPI.comm_world,f'{Saida}res_velocity.xdmf') as my_file:
 	my_file.write(u)
 '''
-# para executar esse código, vamos usar o mpirun (coloquei para usar 2 threads)
-# mpirun -np 2 python3 nome_deste_codigo.py
 
