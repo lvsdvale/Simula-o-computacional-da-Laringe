@@ -62,6 +62,5 @@ def create_mesh(txt):
     # fechando a edição da malha e retornando a mesma
     editor.close()
     print(f'criado uma malha com {nvertices} vertices e {ncells} celulas')
-
     return mesh,near
 

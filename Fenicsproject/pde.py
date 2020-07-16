@@ -2,17 +2,17 @@ from __future__ import print_function
 from fenics import *
 from dolfin import *
 import Mesh_Create2D
-import uuid
+import datetime
 # Setting physical parameters
 f        = Constant( (0.0, 0.0) )
 rho      = Constant( 0.001230 )
 mu       = Constant( 0.000179 )
 u_walls  = Constant( (0.0, 0.0) )
-p_inlet  = Constant( 8000.0 )
+p_inlet  = Constant( 80.0 )
 p_outlet = Constant( 0.0 )
 
 txt = input('digite o nome do arquivo que deseja abrir \n')
-Saida =f'{txt}_{uuid.uuid4()}'
+Saida =f'{txt}_{str(datetime.datetime.now())}'
 txt = f'{txt}.vtu'
 my_mesh,Near = Mesh_Create2D.create_mesh(txt)
 #vtkfile = File(Saida)
