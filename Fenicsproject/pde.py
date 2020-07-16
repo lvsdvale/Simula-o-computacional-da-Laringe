@@ -29,7 +29,6 @@ W  = FunctionSpace(my_mesh, TH)
 (v, q) =  TestFunctions(W)
 
 # Define boundary conditions
-# --> Lucas, aqui vc deve definir as condições de contorno
 # --> eu deixei o código mais ou menos preparado
 # --> as paredes devem ter velocidade NULA
 print('Defining boundary conditions...')
